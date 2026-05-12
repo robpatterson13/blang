@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "opcode_mappings.h"
 
 typedef enum Opcode : uint8_t {
   OP_ADD,
