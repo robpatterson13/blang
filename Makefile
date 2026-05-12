@@ -1,5 +1,5 @@
 CC     := clang
-CFLAGS := -std=c23 -Wall -Wextra -Wpedantic -I include
+CFLAGS := -std=c23 -Wall -Wextra -I include
 LDFLAGS :=
 
 BUILD ?= debug
@@ -19,7 +19,7 @@ DEPS := $(COMPILER_OBJS:.o=.d) $(VM_OBJS:.o=.d)
 
 .PHONY: all clean format compile_commands
 
-all: bin/blangc bin/blang
+all: bin/blang # bin/blangc 
 
 bin/blangc: $(COMPILER_OBJS)
 	@mkdir -p $(@D)
