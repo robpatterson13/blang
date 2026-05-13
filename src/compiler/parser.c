@@ -61,7 +61,7 @@ int parse(struct buf_with_idx *buf, IList *list)
 			if (peek_char(buf) == ';') {
 				PUSH_OR_RETURN_FAILURE(list, OP_SLEEP);
 			} else if (peek_char(buf) == '>') {
-				PUSH_OR_RETURN_FAILURE(list, OP_COMMIT);
+				PUSH_OR_RETURN_FAILURE(list, OP_FLUSH);
 			}
 
 			goto inc;
@@ -76,6 +76,9 @@ inc:
 		last = curr;
 		curr = next_char(buf);
 	}
+
+	PUSH_OR_RETURN_FAILURE(list, OP_FLUSH);
+	PUSH_OR_RETURN_FAILURE(list, OP_HALT);
 
 	return 0;
 }

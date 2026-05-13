@@ -2,10 +2,6 @@
 
 #include "compiler.h"
 
-// this will just be the number of char but I stole it from man...
-// because
-#define NITEMS(arr) (sizeof(arr) / sizeof((arr)[0]))
-
 int main(int argc, char **argv)
 {
 	if (argc > 3 || argc < 2) {
@@ -41,14 +37,6 @@ int main(int argc, char **argv)
 		}
 		bytes_read =
 			fread(buf.buf, sizeof(*buf.buf), sizeof(buf.buf), file);
-	}
-
-	bool did_push = push_instruction(&list, OP_HALT);
-	if (!did_push) {
-		fprintf(stderr,
-			"blangc: unable to add to instruction list (internal compiler error)\n");
-		result = -1;
-		goto deinit_instr;
 	}
 
 	if (argc > 2) {

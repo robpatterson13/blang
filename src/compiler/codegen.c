@@ -1,5 +1,4 @@
 #include "instruction.h"
-
 #include <stddef.h>
 #include <stdio.h>
 
@@ -31,43 +30,43 @@ int emit(IList *list, const char *filename)
 		switch (list->insts[i]) {
 		case OP_ADD1:
 			add_to(buf, ADD1_WORD, &off, file);
-      break;
+			break;
 
 		case OP_ADD5:
 			add_to(buf, ADD5_WORD, &off, file);
-      break;
+			break;
 
 		case OP_ADD10:
 			add_to(buf, ADD10_WORD, &off, file);
-      break;
+			break;
 
 		case OP_SUB1:
 			add_to(buf, SUB1_WORD, &off, file);
-      break;
+			break;
 
 		case OP_SUB5:
 			add_to(buf, SUB5_WORD, &off, file);
-      break;
+			break;
 
 		case OP_SUB10:
 			add_to(buf, SUB10_WORD, &off, file);
-      break;
+			break;
 
 		case OP_COMMIT:
 			add_to(buf, COMMIT_WORD, &off, file);
-      break;
+			break;
 
 		case OP_FLUSH:
 			add_to(buf, FLUSH_WORD, &off, file);
-      break;
+			break;
 
 		case OP_SLEEP:
 			add_to(buf, SLEEP_WORD, &off, file);
-      break;
+			break;
 
 		case OP_HALT:
 			add_to(buf, HALT_WORD, &off, file);
-      break;
+			break;
 		}
 	}
 

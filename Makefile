@@ -45,4 +45,4 @@ format:
 	clang-format -i $(shell find src include -name '*.c' -o -name '*.h' 2>/dev/null)
 
 clean:
-	rm -rf bin
+	rm -rf bin out/*
