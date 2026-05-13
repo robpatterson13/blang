@@ -25,9 +25,8 @@ int main(int argc, char **argv)
 		goto close_file;
 	}
 
-  char buf[4096];
-	size_t bytes_read =
-		fread(buf, sizeof(*buf), sizeof(buf), file);
+	char buf[4096];
+	size_t bytes_read = fread(buf, sizeof(*buf), sizeof(buf), file);
 	while (bytes_read > 0) {
 		result = parse(buf, &list);
 		if (result < 0) {
@@ -35,17 +34,16 @@ int main(int argc, char **argv)
 				"blang: unable to parse input (internal compiler error)\n");
 			goto deinit_instr;
 		}
-		bytes_read =
-      fread(buf, sizeof(*buf), sizeof(buf), file);
-  }
+		bytes_read = fread(buf, sizeof(*buf), sizeof(buf), file);
+	}
 
-  interpret(list.insts);
+	interpret(list.insts);
 
 deinit_instr:
-  deinit_instructions(&list);
+	deinit_instructions(&list);
 
 close_file:
-  fclose(file);
+	fclose(file);
 
 	return result;
 }
