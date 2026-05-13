@@ -5,7 +5,7 @@
 int parse(char *buf, IList *insts)
 {
 	char *token = strtok(buf, " \n");
-#define MATCHES(word) (strncmp(token, word, strlen(word)) == 0)
+#define MATCHES(word) (strcmp(token, word) == 0)
 
 	int op = -1;
 	while (token) {

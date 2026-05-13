@@ -22,6 +22,7 @@ uint8_t interpret(Instruction *insts)
 	char curr = 0;
 
 	// clang-format off
+  DISPATCH();
 	while (true) {
     do_add1:
       curr += 1;
