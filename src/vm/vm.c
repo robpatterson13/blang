@@ -4,6 +4,8 @@
 #include "buf.h"
 #include "instruction.h"
 
+#define SLEEP_TIME 1
+
 static inline void flush(struct buf_with_idx *buf);
 static inline void flush_then_push(struct buf_with_idx *buf, const char c);
 
@@ -49,7 +51,7 @@ uint8_t interpret(Instruction *insts)
       DISPATCH();
 
     do_sleep:
-      sleep(curr);
+      sleep(SLEEP_TIME);
       DISPATCH();
 
     do_commit:

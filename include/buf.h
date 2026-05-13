@@ -35,6 +35,11 @@ static inline char peek_char(struct buf_with_idx *buf)
 	return buf->buf[buf->idx];
 }
 
+static inline void burn_char(struct buf_with_idx *buf)
+{
+  buf->idx++; 
+}
+
 static inline char next_char(struct buf_with_idx *buf)
 {
 	return buf->buf[buf->idx++];

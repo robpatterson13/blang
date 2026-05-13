@@ -60,11 +60,13 @@ int parse(struct buf_with_idx *buf, IList *list)
 		if (curr == ';') {
 			if (peek_char(buf) == ';') {
 				PUSH_OR_RETURN_FAILURE(list, OP_SLEEP);
+        burn_char(buf);
+        goto inc;
 			} else if (peek_char(buf) == '>') {
 				PUSH_OR_RETURN_FAILURE(list, OP_FLUSH);
+        burn_char(buf);
+        goto inc;
 			}
-
-			goto inc;
 		}
 
 		if (push_ops_for_char(last, curr, list) != 0)
