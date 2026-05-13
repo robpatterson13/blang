@@ -32,12 +32,12 @@ static inline bool push_char(struct buf_with_idx *buf, const char c)
 
 static inline char peek_char(struct buf_with_idx *buf)
 {
-  return buf->buf[buf->idx];
+	return buf->buf[buf->idx];
 }
 
 static inline char next_char(struct buf_with_idx *buf)
 {
-  return buf->buf[buf->idx++];
+	return buf->buf[buf->idx++];
 }
 
 static inline void clear_buf(struct buf_with_idx *buf)
