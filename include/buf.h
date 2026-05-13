@@ -42,7 +42,16 @@ static inline void burn_char(struct buf_with_idx *buf)
 
 static inline char next_char(struct buf_with_idx *buf)
 {
+  if (buf->idx == MSG_BUF_SIZE)
+    return 0;
+
 	return buf->buf[buf->idx++];
+}
+
+// this is horrible and should be another struct
+static inline void make_iter(struct buf_with_idx *buf)
+{
+  buf->idx = 0;
 }
 
 static inline void clear_buf(struct buf_with_idx *buf)

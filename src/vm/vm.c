@@ -5,6 +5,7 @@
 #include "instruction.h"
 
 #define SLEEP_TIME 1
+#define PRINT_LAG 20000
 
 static inline void flush(struct buf_with_idx *buf);
 static inline void flush_then_push(struct buf_with_idx *buf, const char c);
@@ -76,12 +77,14 @@ uint8_t interpret(Instruction *insts)
 
 static inline void flush(struct buf_with_idx *buf)
 {
-	if (buf_full(buf)) {
-		printf("%.*s", MSG_BUF_SIZE, buf->buf);
-	} else {
-		push_char(buf, '\0');
-		printf("%s", buf->buf);
-	}
+  make_iter(buf);
+  char c = next_char(buf);
+  while (c) {
+    printf("%c", c);
+    fflush(stdout);
+    usleep(PRINT_LAG);
+    c = next_char(buf);
+  }
 
 	clear_buf(buf);
 }
