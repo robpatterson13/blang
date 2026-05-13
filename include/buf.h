@@ -37,7 +37,7 @@ static inline char peek_char(struct buf_with_idx *buf)
 
 static inline void burn_char(struct buf_with_idx *buf)
 {
-  buf->idx++; 
+	buf->idx++;
 }
 
 static inline char next_char(struct buf_with_idx *buf)
