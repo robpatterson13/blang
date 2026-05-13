@@ -1,5 +1,5 @@
 CC     := clang
-CFLAGS := -std=c23 -Wall -Wextra -I include
+CFLAGS := -std=c23 -Wall -Wextra -I $(abspath include)
 LDFLAGS :=
 
 BUILD ?= debug
@@ -9,23 +9,26 @@ else
   CFLAGS += -g -O0 -DDEBUG
 endif
 
+COMMON_SRCS := $(shell find src/common -name '*.c' 2>/dev/null)
+COMMON_OBJS := $(COMMON_SRCS:src/%.c=bin/obj/%.o)
+
 COMPILER_SRCS := $(shell find src/compiler -name '*.c' 2>/dev/null)
 COMPILER_OBJS := $(COMPILER_SRCS:src/%.c=bin/obj/%.o)
 
 VM_SRCS := $(shell find src/vm -name '*.c' 2>/dev/null)
 VM_OBJS := $(VM_SRCS:src/%.c=bin/obj/%.o)
 
-DEPS := $(COMPILER_OBJS:.o=.d) $(VM_OBJS:.o=.d)
+DEPS := $(COMMON_OBJS:.o=.d) $(COMPILER_OBJS:.o=.d) $(VM_OBJS:.o=.d)
 
 .PHONY: all clean format compile_commands
 
-all: bin/blang # bin/blangc 
+all: bin/blangc bin/blang
 
-bin/blangc: $(COMPILER_OBJS)
+bin/blangc: $(COMMON_OBJS) $(COMPILER_OBJS)
 	@mkdir -p $(@D)
 	$(CC) $(LDFLAGS) $^ -o $@
 
-bin/blang: $(VM_OBJS)
+bin/blang: $(COMMON_OBJS) $(VM_OBJS)
 	@mkdir -p $(@D)
 	$(CC) $(LDFLAGS) $^ -o $@
 

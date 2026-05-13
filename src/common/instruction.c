@@ -6,7 +6,7 @@
 #define INSTRUCTION_LIST_INIT_CAPACITY 256
 #define INSTRUCTION_LIST_INCREASE_FACTOR 1.5
 
-inline bool init_instructions(IList *i)
+bool init_instructions(IList *i)
 {
 	i->insts = (Instruction *)malloc(sizeof(Instruction) *
 					 INSTRUCTION_LIST_INIT_CAPACITY);
@@ -18,7 +18,7 @@ inline bool init_instructions(IList *i)
 	return true;
 }
 
-inline void deinit_instructions(IList *i)
+void deinit_instructions(IList *i)
 {
 	if (i->insts)
 		free(i->insts);
@@ -53,7 +53,7 @@ static inline bool _realloc(IList *i)
 	return true;
 }
 
-inline bool push_instruction(IList *is, Instruction i)
+bool push_instruction(IList *is, Instruction i)
 {
 	if (_at_max(is)) {
 		bool did_realloc = _realloc(is);

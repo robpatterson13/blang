@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 #include "buf.h"
 #include "instruction.h"
@@ -29,23 +30,24 @@ static inline Instruction parity_op(int diff, Mul mul)
 static inline int push_ops_for_char(const char last, const char curr,
 				    IList *list)
 {
-	int diff = curr - last;
+	int diff = abs(curr - last);
+	int parity = curr < last ? -1 : 1;
 	int tens_inside = diff / 10;
 	if (tens_inside) {
 		for (int i = 0; i < tens_inside; i++)
-			PUSH_OR_RETURN_FAILURE(list, parity_op(diff, M_TEN));
+			PUSH_OR_RETURN_FAILURE(list, parity_op(parity, M_TEN));
 	}
 
 	diff %= 10;
 	int fives_inside = diff / 5;
 	if (fives_inside) {
 		for (int i = 0; i < fives_inside; i++)
-			PUSH_OR_RETURN_FAILURE(list, parity_op(diff, M_FIVE));
+			PUSH_OR_RETURN_FAILURE(list, parity_op(parity, M_FIVE));
 	}
 
 	diff %= 5;
-	for (int i = 0; i < diff; i++)
-		PUSH_OR_RETURN_FAILURE(list, parity_op(diff, M_ONE));
+	for (int i = 0; i < abs(diff); i++)
+		PUSH_OR_RETURN_FAILURE(list, parity_op(parity, M_ONE));
 
 	return 0;
 }
@@ -75,6 +77,5 @@ inc:
 		curr = next_char(buf);
 	}
 
-	PUSH_OR_RETURN_FAILURE(list, OP_HALT);
 	return 0;
 }

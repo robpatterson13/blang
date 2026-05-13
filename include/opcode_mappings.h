@@ -15,8 +15,9 @@
 #define FLUSH_WORD "flush"
 #define HALT_WORD "halt"
 
-#define CHECK_LEN(str) \
-  static_assert(strlen(str) <= MAX_WORD_SIZE, "string for " #str " is too long")
+#define CHECK_LEN(str)                              \
+	static_assert(strlen(str) <= MAX_WORD_SIZE, \
+		      "string for " #str " is too long")
 
 CHECK_LEN(ADD1_WORD);
 CHECK_LEN(ADD5_WORD);
