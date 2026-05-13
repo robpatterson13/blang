@@ -1,21 +1,26 @@
 #include <stdint.h>
+
 #include "opcode_mappings.h"
 
-typedef enum Opcode : uint8_t {
-  OP_ADD,
-  OP_SUB,
-  OP_DOUBLE,
-  OP_HALVE,
-  OP_SLEEP,
-  OP_COMMIT,
-  OP_FLUSH,
-  OP_HALT
-} Opcode;
-
-typedef struct Instruction {
-  Opcode opcode;
-  union {
-    int8_t val;
-    uint8_t time;
-  };
+typedef enum Instruction : uint8_t {
+	OP_ADD1,
+	OP_ADD5,
+	OP_ADD10,
+	OP_SUB1,
+	OP_SUB5,
+	OP_SUB10,
+	OP_SLEEP,
+	OP_COMMIT,
+	OP_FLUSH,
+	OP_HALT
 } Instruction;
+
+typedef struct IList {
+	int capacity;
+	int length;
+	Instruction *insts;
+} IList;
+
+bool init_instructions(IList *i);
+void deinit_instructions(IList *i);
+bool push_instruction(IList *is, Instruction i);
