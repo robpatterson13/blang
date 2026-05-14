@@ -52,7 +52,7 @@ static inline int push_ops_for_char(const char last, const char curr,
 	return 0;
 }
 
-int parse(struct buf_with_idx *buf, IList *list)
+int parse(struct buf_iter *buf, IList *list)
 {
 	char last = 0;
 	char curr = next_char(buf);

@@ -77,14 +77,15 @@ uint8_t interpret(Instruction *insts)
 
 static inline void flush(struct buf_with_idx *buf)
 {
-  make_iter(buf);
-  char c = next_char(buf);
-  while (c) {
-    printf("%c", c);
-    fflush(stdout);
-    usleep(PRINT_LAG);
-    c = next_char(buf);
-  }
+	struct buf_iter iter;
+	make_iter_from(buf, &iter);
+	char c = next_char(&iter);
+	while (c) {
+		printf("%c", c);
+		fflush(stdout);
+		usleep(PRINT_LAG);
+		c = next_char(&iter);
+	}
 
 	clear_buf(buf);
 }

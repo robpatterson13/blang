@@ -3,59 +3,27 @@
 
 #define MSG_BUF_SIZE 256
 
+#define DEFINE_MSG_BUF(name) struct buf_with_idx name = { 0 }
+
 // stupid little buffer with its own index
 struct buf_with_idx {
 	int idx;
 	char buf[MSG_BUF_SIZE];
 };
 
-#define DEFINE_MSG_BUF(name) struct buf_with_idx name = { 0 }
+bool buf_full(struct buf_with_idx *buf);
+bool buf_empty(struct buf_with_idx *buf);
+bool push_char(struct buf_with_idx *buf, const char c);
+void clear_buf(struct buf_with_idx *buf);
 
-static inline bool buf_full(struct buf_with_idx *buf)
-{
-	return buf->idx == MSG_BUF_SIZE;
-}
+struct buf_iter {
+	int idx;
+	char buf[MSG_BUF_SIZE];
+	int length;
+};
 
-static inline bool buf_empty(struct buf_with_idx *buf)
-{
-	return buf->idx == 0;
-}
-
-static inline bool push_char(struct buf_with_idx *buf, const char c)
-{
-	if (buf_full(buf))
-		return false;
-
-	buf->buf[buf->idx++] = c;
-	return true;
-}
-
-static inline char peek_char(struct buf_with_idx *buf)
-{
-	return buf->buf[buf->idx];
-}
-
-static inline void burn_char(struct buf_with_idx *buf)
-{
-	buf->idx++;
-}
-
-static inline char next_char(struct buf_with_idx *buf)
-{
-  if (buf->idx == MSG_BUF_SIZE)
-    return 0;
-
-	return buf->buf[buf->idx++];
-}
-
-// this is horrible and should be another struct
-static inline void make_iter(struct buf_with_idx *buf)
-{
-  buf->idx = 0;
-}
-
-static inline void clear_buf(struct buf_with_idx *buf)
-{
-	memset(buf->buf, 0, MSG_BUF_SIZE);
-	buf->idx = 0;
-}
+void make_iter(struct buf_iter *i, const char *buf, int length);
+void make_iter_from(struct buf_with_idx *old, struct buf_iter *new);
+char peek_char(struct buf_iter *buf);
+void burn_char(struct buf_iter *buf);
+char next_char(struct buf_iter *buf);

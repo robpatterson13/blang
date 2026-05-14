@@ -2,6 +2,15 @@
 
 #include "compiler.h"
 
+size_t read_into_buf(struct buf_iter *buf, FILE *file)
+{
+	buf->idx = 0;
+	size_t bytes_read =
+		fread(buf->buf, sizeof(char), sizeof(buf->buf), file);
+	buf->length = bytes_read;
+	return bytes_read;
+}
+
 int main(int argc, char **argv)
 {
 	if (argc > 3 || argc < 2) {
@@ -25,9 +34,8 @@ int main(int argc, char **argv)
 		goto close_file;
 	}
 
-	DEFINE_MSG_BUF(buf);
-	size_t bytes_read =
-		fread(buf.buf, sizeof(*buf.buf), sizeof(buf.buf), file);
+	struct buf_iter buf;
+	size_t bytes_read = read_into_buf(&buf, file);
 	while (bytes_read > 0) {
 		result = parse(&buf, &list);
 		if (result < 0) {
@@ -35,8 +43,7 @@ int main(int argc, char **argv)
 				"blangc: unable to parse input (internal compiler error)\n");
 			goto deinit_instr;
 		}
-		bytes_read =
-			fread(buf.buf, sizeof(*buf.buf), sizeof(buf.buf), file);
+		bytes_read = read_into_buf(&buf, file);
 	}
 
 	if (argc > 2) {
