@@ -2,7 +2,7 @@
 
 #include "compiler.h"
 
-size_t read_into_buf(struct buf_iter *buf, FILE *file)
+static size_t read_into_buf(struct buf_iter *buf, FILE *file)
 {
 	buf->idx = 0;
 	size_t bytes_read =
